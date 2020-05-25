@@ -2,7 +2,10 @@ package setup;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import pageObjects.PageObject;
 
 import java.io.File;
@@ -13,22 +16,20 @@ import java.util.concurrent.TimeUnit;
 public class BaseTest implements IDriver {
 
     private static AppiumDriver appiumDriver; // singleton
-    IPageObject po;
+    private static IPageObject pageObject;
 
     @Override
     public AppiumDriver getDriver() { return appiumDriver; }
 
-    public IPageObject getPo() {
-        return po;
+    public IPageObject getPageObject() {
+        return pageObject;
     }
 
     @Parameters({"platformName","appType","deviceName","browserName","app"})
     @BeforeSuite(alwaysRun = true)
     public void setUp(String platformName, String appType, String deviceName, @Optional("") String browserName, @Optional("") String app) throws Exception {
-        System.out.println("Before: app type - "+appType);
         setAppiumDriver(platformName, deviceName, browserName, app);
         setPageObject(appType, appiumDriver);
-
     }
 
     @AfterSuite(alwaysRun = true)
@@ -43,7 +44,9 @@ public class BaseTest implements IDriver {
         capabilities.setCapability("platformName",platformName);
         capabilities.setCapability("deviceName",deviceName);
 
-        if(app.endsWith(".apk")) capabilities.setCapability("app", (new File(app)).getAbsolutePath());
+        if(app.endsWith(".apk")) {
+            capabilities.setCapability("app", (new File(app)).getAbsolutePath());
+        }
 
         capabilities.setCapability("browserName", browserName);
         capabilities.setCapability("chromedriverDisableBuildCheck","true");
@@ -56,12 +59,9 @@ public class BaseTest implements IDriver {
 
         // Timeouts tuning
         appiumDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
     }
 
-    private void setPageObject(String appType, AppiumDriver appiumDriver) throws Exception {
-        po = new PageObject(appType, appiumDriver);
+    private static void setPageObject(String appType, AppiumDriver appiumDriver) throws Exception {
+        pageObject = new PageObject(appType, appiumDriver);
     }
-
-
 }

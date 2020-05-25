@@ -5,13 +5,20 @@ import org.openqa.selenium.WebElement;
 import setup.IPageObject;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class PageObject implements IPageObject {
 
-    Object somePageObject; // it should be set of web page or EPAM Test App WebElements
+    @Override
+    public List<WebElement> getElements(String name) throws NoSuchFieldException, IllegalAccessException {
+        Field field = somePageObject.getClass().getDeclaredField(name);
+        field.setAccessible(true);
+        return (List<WebElement>) field.get(somePageObject);
+    }
+
+    Object somePageObject; // it should be set for web page or EPAM Test App WebElements
 
     public PageObject(String appType, AppiumDriver appiumDriver) throws Exception {
-
         System.out.println("Current app type: "+appType);
         switch(appType){
             case "web":
@@ -22,16 +29,13 @@ public class PageObject implements IPageObject {
                 break;
             default: throw new Exception("Can't create a page object for "+appType);
         }
-
     }
 
-
     @Override
-    public WebElement getWelement(String weName) throws NoSuchFieldException, IllegalAccessException {
+    public WebElement getElement(String name) throws NoSuchFieldException, IllegalAccessException {
         // use reflection technique
-        Field field = somePageObject.getClass().getDeclaredField(weName);
+        Field field = somePageObject.getClass().getDeclaredField(name);
         field.setAccessible(true);
         return (WebElement) field.get(somePageObject);
-
     }
 }
