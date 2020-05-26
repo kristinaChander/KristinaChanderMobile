@@ -27,7 +27,6 @@ public class WebMobileTests extends BaseTest {
 
         List<WebElement> resultList = waitAndGetElements(getPageObject().getElements(RESULT_LINKS));//wait until search results are shown
 
-        System.out.println(resultList.size());
         assertNotNull(resultList);
         assertFalse(resultList.isEmpty());
     }

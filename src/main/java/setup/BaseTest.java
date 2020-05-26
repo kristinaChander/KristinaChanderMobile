@@ -39,17 +39,18 @@ public class BaseTest implements IDriver {
     @BeforeSuite(alwaysRun = true)
     public void setUp(String platformName, String appType, String deviceName,
                       @Optional("") String browserName, @Optional("") String app) throws Exception {
-        setAppiumDriver(platformName, deviceName, browserName, app);
+        DesiredCapabilities capabilities = getDesiredCapabilities(platformName, deviceName, browserName, app);
+        initAppiumDriver(capabilities);
         setPageObject(appType, appiumDriver);
     }
 
     @AfterSuite(alwaysRun = true)
-    public void tearDown() throws Exception {
+    public void tearDown() {
         System.out.println("Close appium driver");
         appiumDriver.closeApp();
     }
 
-    private void setAppiumDriver(String platformName, String deviceName, String browserName, String app) {
+    private DesiredCapabilities getDesiredCapabilities(String platformName, String deviceName, String browserName, String app) {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         //mandatory Android capabilities
         capabilities.setCapability("platformName", platformName);
@@ -61,16 +62,23 @@ public class BaseTest implements IDriver {
 
         capabilities.setCapability("browserName", browserName);
         capabilities.setCapability("chromedriverDisableBuildCheck", "true");
+        return capabilities;
+    }
 
-//        try {
-            appiumDriver = new AppiumDriver(/*new URL(System.getProperty("ts.appium")), */capabilities);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
+    private URL getRemoteAddress(){
+        try {
+            return new URL(System.getProperty("ts.appium"));
+        } catch (MalformedURLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void initAppiumDriver(DesiredCapabilities capabilities) {
+        appiumDriver = new AppiumDriver(getRemoteAddress(), capabilities);
 
         // Timeouts tuning
-        appiumDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        webDriverWait = new WebDriverWait(appiumDriver, 10);
+        appiumDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        webDriverWait = new WebDriverWait(appiumDriver, 15);
     }
 
     private static void setPageObject(String appType, AppiumDriver appiumDriver) throws Exception {

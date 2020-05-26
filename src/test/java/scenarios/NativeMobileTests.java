@@ -11,7 +11,6 @@ public class NativeMobileTests extends BaseTest {
 
     @Test(groups = {"native"}, description = "New account registration and sign in")
     public void simpleNativeTest() throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-//        getPageObject().getElement(SIGN_IN_BTN).click();
         getPageObject().getElement(REGISTRATION_BTN).click();//click registration btn
         getPageObject().getElement(REG_FORM_EMAIL).sendKeys(CREDENTIALS.getProperty("email"));//enter email
         getPageObject().getElement(REG_FORM_USER_NAME).sendKeys(CREDENTIALS.getProperty("userName"));//enter user name
