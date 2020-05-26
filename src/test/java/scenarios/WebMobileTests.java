@@ -1,16 +1,14 @@
 package scenarios;
 
-import consts.WebPageObjectElements;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import setup.BaseTest;
 
 import java.util.List;
 
 import static consts.WebPageObjectElements.*;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 
 public class WebMobileTests extends BaseTest {
 
@@ -18,23 +16,19 @@ public class WebMobileTests extends BaseTest {
     public void simpleWebTest() throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         getDriver().get("http://google.com"); // open Google search
 
-        new WebDriverWait(getDriver(), 10).until(
-                wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete")
-        );
+        waitScriptsLoaded();//wait until scripts are loaded
 
-        WebElement searchField = getPageObject().getElement(SEARCH_FIELD);
-        new WebDriverWait(getDriver(),10).until(ExpectedConditions
-                .visibilityOf(searchField));
-
+        WebElement searchField = waitAndGetElement(getPageObject().getElement(SEARCH_FIELD));//wait until search field is visible
         searchField.sendKeys("EPAM");
-
-        WebElement searchIcon = getPageObject().getElement(SEARCH_ICON);
-
-        new WebDriverWait(getDriver(),10).until(ExpectedConditions.visibilityOf(searchIcon));
+        WebElement searchIcon = waitAndGetElement(getPageObject().getElement(SEARCH_ICON));//wait until search icon is visible
         searchIcon.click();
 
-        List<WebElement> resultsList = getPageObject().getElements(RESULT_LINKS);
+        waitScriptsLoaded();//wait until scripts are loaded
 
-        assert (resultsList.size() > 0);
+        List<WebElement> resultList = waitAndGetElements(getPageObject().getElements(RESULT_LINKS));//wait until search results are shown
+
+        System.out.println(resultList.size());
+        assertNotNull(resultList);
+        assertFalse(resultList.isEmpty());
     }
 }
