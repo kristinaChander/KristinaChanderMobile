@@ -35,14 +35,25 @@ public class BaseTest implements IDriver {
         return pageObject;
     }
 
-    @Parameters({"platformName", "appType", "deviceName", "browserName", "app"})
+    @Parameters({"platformName", "appType", "deviceName", "browserName", "app", "udid", "appPackage", "appActivity", "bundleId"})
     @BeforeSuite(alwaysRun = true)
-    public void setUp(String platformName, String appType, String deviceName,
-                      @Optional("") String browserName, @Optional("") String app) throws Exception {
-        DesiredCapabilities capabilities = getDesiredCapabilities(platformName, deviceName, browserName, app);
+    public void setUp(String platformName,
+                      String appType,
+                      @Optional("") String deviceName,
+                      @Optional("") String browserName,
+                      @Optional("") String app,
+                      @Optional("") String udid,
+                      @Optional("") String appPackage,
+                      @Optional("") String appActivity,
+                      @Optional("") String bundleId
+    )
+            throws Exception {
+        DesiredCapabilities capabilities = getDesiredCapabilities(platformName,
+                deviceName, browserName, app, udid, appPackage, appActivity, bundleId);
         initAppiumDriver(capabilities);
         setPageObject(appType, appiumDriver);
     }
+
 
     @AfterSuite(alwaysRun = true)
     public void tearDown() {
@@ -50,7 +61,9 @@ public class BaseTest implements IDriver {
         appiumDriver.closeApp();
     }
 
-    private DesiredCapabilities getDesiredCapabilities(String platformName, String deviceName, String browserName, String app) {
+    private DesiredCapabilities getDesiredCapabilities(
+            String platformName, String deviceName, String browserName, String app,
+            String udid, String appPackage, String appActivity, String bundleId) {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         //mandatory Android capabilities
         capabilities.setCapability("platformName", platformName);
@@ -62,13 +75,21 @@ public class BaseTest implements IDriver {
 
         capabilities.setCapability("browserName", browserName);
         capabilities.setCapability("chromedriverDisableBuildCheck", "true");
+        // Capabilities for test of Android native app on EPAM Mobile Cloud
+        capabilities.setCapability("appPackage", appPackage);
+        capabilities.setCapability("appActivity", appActivity);
+        // Capabilities for test of iOS native app on EPAM Mobile Cloud
+        capabilities.setCapability("bundleId", bundleId);
+        if (platformName.equals("iOS")) {
+            capabilities.setCapability("automationName", "XCUITest");
+        }
         return capabilities;
     }
 
-    private URL getRemoteAddress(){
+    private URL getRemoteAddress() {
         try {
             return new URL(System.getProperty("ts.appium"));
-        } catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }
