@@ -5,7 +5,7 @@
 <!--parameter name="udid" value="802KPFX1550899"></parameter-->
 <parameter name="platformName" value="Android"></parameter>
 <parameter name="browserName" value="Chrome"></parameter>
-<test name="Cloud Web tests">
+<test name="Cloud Android Web tests">
     <groups>
         <run>
             <include name="web"/>
