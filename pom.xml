@@ -8,6 +8,10 @@
     <artifactId>mobileTaTrainingV2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <token>863a9f36-633d-47d8-8e38-62ee36b0d443</token>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.appium</groupId>
@@ -54,7 +58,7 @@
                         <suiteXmlFile>${suite.file}</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
-                        <ts.appium>https://EPM-TSTF:${env.TOKEN}@mobilecloud.epam.com/wd/hub</ts.appium>
+                        <ts.appium>https://EPM-TSTF:${token}@mobilecloud.epam.com/wd/hub</ts.appium>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

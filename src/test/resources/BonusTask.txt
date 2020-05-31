@@ -1,0 +1,7 @@
+ To avoid storing a personal security token in GitHub, we may create an environment variable TOKEN, and set it the value of our token.
+ Every person that uses our code has to create the same variable and set it the value of their own token.
+ Thus everyone having a token will be able to run tests, but the token won't be stored in a public place.
+
+ <systemPropertyVariables>
+                        <ts.appium>https://EPM-TSTF:${env.TOKEN}@mobilecloud.epam.com/wd/hub</ts.appium>
+ </systemPropertyVariables>
