@@ -8,6 +8,9 @@
 
 
 to run Android web test: mvn clean test -PcloudAndroidWeb
+
 to run Android native test: mvn clean test -PcloudAndroidNative
+
 to run iOS web test: mvn clean test -PcloudIOSWeb
+
 to run iOS native test: mvn clean test -PcloudAndroidNative
