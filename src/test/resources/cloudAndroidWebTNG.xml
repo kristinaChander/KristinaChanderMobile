@@ -2,7 +2,6 @@
 <suite name="EPAM mobile cloud Web testing Suite">
 <parameter name="appType" value="web"></parameter>
 <parameter name="deviceName" value="SAMSUNG SM-G965F"></parameter>
-<!--parameter name="udid" value="802KPFX1550899"></parameter-->
 <parameter name="platformName" value="Android"></parameter>
 <parameter name="browserName" value="Chrome"></parameter>
 <test name="Cloud Android Web tests">

@@ -46,8 +46,7 @@ public class BaseTest implements IDriver {
                       @Optional("") String appPackage,
                       @Optional("") String appActivity,
                       @Optional("") String bundleId
-    )
-            throws Exception {
+    ) throws Exception {
         DesiredCapabilities capabilities = getDesiredCapabilities(platformName,
                 deviceName, browserName, app, udid, appPackage, appActivity, bundleId);
         setAppiumDriver(capabilities);
@@ -79,9 +78,7 @@ public class BaseTest implements IDriver {
         capabilities.setCapability("appActivity", appActivity);
         // Capabilities for test of iOS native app on EPAM Mobile Cloud
         capabilities.setCapability("bundleId", bundleId);
-//        if (platformName.equals("iOS")) {
-//            capabilities.setCapability("automationName", "XCUITest");
-//        }
+
         return capabilities;
     }
 

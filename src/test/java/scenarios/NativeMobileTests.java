@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import setup.BaseTest;
 
 import static consts.NativePageObjectElements.*;
-import static org.testng.Assert.assertEquals;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static utils.GetPropertyUtil.CREDENTIALS;
 
 public class NativeMobileTests extends BaseTest {
@@ -21,6 +21,6 @@ public class NativeMobileTests extends BaseTest {
         getPageObject().getElement(LOG_IN_PASSWORD).sendKeys(CREDENTIALS.getProperty("password"));//enter password
         getPageObject().getElement(SIGN_IN_BTN).click();//click sign in btn
 
-        assertEquals(getPageObject().getElement(BUDGET_PAGE_TITLE).getText(),"BudgetActivity");//assert we are on a Budget Activity page
+        assertThat(getPageObject().getElement(BUDGET_PAGE_TITLE).getText().contains("Budjet"));//assert we are on a Budget Activity page
     }
 }
