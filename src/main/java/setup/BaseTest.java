@@ -50,10 +50,9 @@ public class BaseTest implements IDriver {
             throws Exception {
         DesiredCapabilities capabilities = getDesiredCapabilities(platformName,
                 deviceName, browserName, app, udid, appPackage, appActivity, bundleId);
-        initAppiumDriver(capabilities);
+        setAppiumDriver(capabilities);
         setPageObject(appType, appiumDriver);
     }
-
 
     @AfterSuite(alwaysRun = true)
     public void tearDown() {
@@ -65,24 +64,24 @@ public class BaseTest implements IDriver {
             String platformName, String deviceName, String browserName, String app,
             String udid, String appPackage, String appActivity, String bundleId) {
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        //mandatory Android capabilities
+        //mandatory capabilities
         capabilities.setCapability("platformName", platformName);
         capabilities.setCapability("deviceName", deviceName);
+        capabilities.setCapability("udid", udid);
+        capabilities.setCapability("browserName", browserName);
+        capabilities.setCapability("chromedriverDisableBuildCheck", "true");
 
         if (app.endsWith(".apk")) {
             capabilities.setCapability("app", (new File(app)).getAbsolutePath());
         }
-
-        capabilities.setCapability("browserName", browserName);
-        capabilities.setCapability("chromedriverDisableBuildCheck", "true");
         // Capabilities for test of Android native app on EPAM Mobile Cloud
         capabilities.setCapability("appPackage", appPackage);
         capabilities.setCapability("appActivity", appActivity);
         // Capabilities for test of iOS native app on EPAM Mobile Cloud
         capabilities.setCapability("bundleId", bundleId);
-        if (platformName.equals("iOS")) {
-            capabilities.setCapability("automationName", "XCUITest");
-        }
+//        if (platformName.equals("iOS")) {
+//            capabilities.setCapability("automationName", "XCUITest");
+//        }
         return capabilities;
     }
 
@@ -94,7 +93,7 @@ public class BaseTest implements IDriver {
         }
     }
 
-    private void initAppiumDriver(DesiredCapabilities capabilities) {
+    private void setAppiumDriver(DesiredCapabilities capabilities) {
         appiumDriver = new AppiumDriver(getRemoteAddress(), capabilities);
 
         // Timeouts tuning

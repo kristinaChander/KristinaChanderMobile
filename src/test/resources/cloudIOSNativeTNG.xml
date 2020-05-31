@@ -3,7 +3,7 @@
     <parameter name="appType" value="native"></parameter>
     <parameter name="udid" value="00008030-001115E40EE2802E"></parameter>
     <parameter name="platformName" value="iOS"></parameter>
-    <parameter name="bundleId" value="COM.EPAM.EPAMTESTAPP.II"></parameter>
+    <parameter name="bundleId" value="com.epam.EPAMTestApp.ii"></parameter>
     <test name="cloud iOS Native tests">
         <groups>
             <run>
