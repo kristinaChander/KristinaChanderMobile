@@ -1,10 +1,7 @@
 package setup;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
@@ -14,17 +11,12 @@ import pageObjects.PageObject;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElements;
 
 public class BaseTest implements IDriver {
 
-    private static AppiumDriver appiumDriver; // singleton
+    protected static AppiumDriver appiumDriver; // singleton
     private static IPageObject pageObject;
-    private static WebDriverWait webDriverWait;
 
     @Override
     public AppiumDriver getDriver() {
@@ -65,37 +57,21 @@ public class BaseTest implements IDriver {
         return capabilities;
     }
 
-    private URL getRemoteAddress(){
+    private URL getRemoteAddress() {
         try {
             return new URL(System.getProperty("ts.appium"));
-        } catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void initAppiumDriver(DesiredCapabilities capabilities) {
         appiumDriver = new AppiumDriver(getRemoteAddress(), capabilities);
-
         // Timeouts tuning
         appiumDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        webDriverWait = new WebDriverWait(appiumDriver, 15);
     }
 
     private static void setPageObject(String appType, AppiumDriver appiumDriver) throws Exception {
         pageObject = new PageObject(appType, appiumDriver);
-    }
-
-    protected WebElement waitAndGetElement(WebElement element) {
-        return webDriverWait.until(visibilityOf(element));
-    }
-
-    protected List<WebElement> waitAndGetElements(List<WebElement> elements) {
-        return webDriverWait.until(visibilityOfAllElements(elements));
-    }
-
-    protected void waitScriptsLoaded() {
-        webDriverWait.until(
-                wd -> ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete")
-        );
     }
 }
