@@ -3,24 +3,27 @@ package scenarios;
 import org.testng.annotations.Test;
 import setup.BaseTest;
 
-import static consts.NativePageObjectElements.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static utils.GetPropertyUtil.CREDENTIALS;
 
 public class NativeMobileTests extends BaseTest {
 
+    public static final String EMAIL = "email";
+    public static final String USER_NAME = "userName";
+    public static final String PASSWORD = "password";
+
     @Test(groups = {"native"}, description = "New account registration and sign in")
     public void simpleNativeTest() throws IllegalAccessException, NoSuchFieldException, InstantiationException {
-        getPageObject().getElement(REGISTRATION_BTN).click();//click registration btn
-        getPageObject().getElement(REG_FORM_EMAIL).sendKeys(CREDENTIALS.getProperty("email"));//enter email
-        getPageObject().getElement(REG_FORM_USER_NAME).sendKeys(CREDENTIALS.getProperty("userName"));//enter user name
-        getPageObject().getElement(REG_FORM_PASSWORD).sendKeys(CREDENTIALS.getProperty("password"));//enter password
-        getPageObject().getElement(REG_FORM_CONFIRM_PASSWORD).sendKeys(CREDENTIALS.getProperty("password"));//confirm password
-        getPageObject().getElement(REG_FORM_REG_NEW_ACCOUNT_BTN).click();//confirm new user registration
-        getPageObject().getElement(LOG_IN_EMAIL).sendKeys(CREDENTIALS.getProperty("email"));//enter log in email
-        getPageObject().getElement(LOG_IN_PASSWORD).sendKeys(CREDENTIALS.getProperty("password"));//enter password
-        getPageObject().getElement(SIGN_IN_BTN).click();//click sign in btn
+        getPageObject().getElement("regAccountBtn").click();//click registration btn
+        getPageObject().getElement("email").sendKeys(CREDENTIALS.getProperty(EMAIL));//enter email
+        getPageObject().getElement("userName").sendKeys(CREDENTIALS.getProperty(USER_NAME));//enter user name
+        getPageObject().getElement("password").sendKeys(CREDENTIALS.getProperty(PASSWORD));//enter password
+        getPageObject().getElement("confirmPassword").sendKeys(CREDENTIALS.getProperty(PASSWORD));//confirm password
+        getPageObject().getElement("registerAccountBtn").click();//confirm new user registration
+        getPageObject().getElement("emailToLogIn").sendKeys(CREDENTIALS.getProperty(EMAIL));//enter log in email
+        getPageObject().getElement("passwordToLogIn").sendKeys(CREDENTIALS.getProperty(PASSWORD));//enter password
+        getPageObject().getElement("signInBtn").click();//click sign in btn
 
-        assertThat(getPageObject().getElement(BUDGET_PAGE_TITLE).getText().contains("Budjet"));//assert we are on a Budget Activity page
+        assertThat(getPageObject().getElement("pageTitle").getText().contains("Budjet"));//assert we are on a Budget Activity page
     }
 }
