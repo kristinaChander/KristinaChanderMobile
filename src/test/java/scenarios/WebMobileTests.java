@@ -15,9 +15,9 @@ import static org.testng.Assert.assertNotNull;
 
 public class WebMobileTests extends BaseTest {
 
-    private WebDriverWait webDriverWait(){
-        return  new WebDriverWait(appiumDriver, 15);
-}
+    private WebDriverWait webDriverWait() {
+        return new WebDriverWait(appiumDriver, 15);
+    }
 
     protected WebElement waitAndGetElement(WebElement element) {
         return webDriverWait().until(visibilityOf(element));

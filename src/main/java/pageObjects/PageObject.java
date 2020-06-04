@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PageObject implements IPageObject {
 
-    private Object somePageObject; // it should be set for web page or EPAM Test App WebElements
+    private final Object somePageObject; // it should be set for web page or EPAM Test App WebElements
 
     public PageObject(String appType, AppiumDriver appiumDriver) throws Exception {
         System.out.println("Current app type: " + appType);
